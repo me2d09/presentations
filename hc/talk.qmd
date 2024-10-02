@@ -21,7 +21,10 @@ summary: |
 ## Connect!
 
 
-[cermak.science/teaching/minischool/hc.html](https://cermak.science/teaching/minischool/hc.html)
+[slides.cermak.science/hc/](https://slides.cermak.science/hc/presentation.html)
+
+![](/qr.png)
+
 
 # Introduction
 
