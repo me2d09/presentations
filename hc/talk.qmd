@@ -1,0 +1,381 @@
+---
+title: "Specific heat in solids"
+author: Petr Čermák
+date: 2024-10-01
+format:
+  revealjs: 
+    output-file: presentation.html
+    theme: moon
+    multiplex: true
+    chalkboard: true
+  html:
+    output-file: index.html
+  ipynb: default
+jupyter: python3
+execute: 
+  echo: true
+summary: |
+  Understanding Heat Capacity from an Experimental Perspective
+  Short introduction to the specific heat measurements from the experimentalist point of view.
+---
+## Connect!
+
+
+[cermak.science/teaching/minischool/hc.html](https://cermak.science/teaching/minischool/hc.html)
+
+# Introduction
+
+## Why Specific Heat?
+
+- **Fundamental Insight**:
+    - How solids store thermal energy
+    - Linked to:
+      - **lattice vibrations (phonons)**
+      - **electrons**
+      - **magnetic excitations**.
+  
+- The **first experiment** to characterize new materials.
+
+
+# Einstein Model of Specific Heat
+
+## Basic Assumptions
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- Einstein modeled a solid as **N particles**, each oscillating independently in 3D.
+- The oscillators have the **same frequency** $\nu_E$.
+- Each particle behaves like a **quantum harmonic oscillator**.
+
+$$
+E = \sum \left( n + \frac{1}{2} \right) h\nu_E
+$$
+
+:::
+
+::: {.column width="40%"}
+![](/oscillation_diagram.svg)
+
+
+:::
+
+::::
+
+
+
+
+## Einstein Model limits
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+**High Temperatures**
+
+- $C_V$ approaches the **Dulong-Petit** limit:
+    
+    $$
+    C_V \approx 3R
+    $$
+
+    where $R$ is the gas constant.
+:::
+
+::: {.column width="50%"}
+
+
+**Low Temperatures**
+
+- Fewer oscillators are excited:
+    
+    $$
+    C_V \rightarrow 0 \quad \text{as} \quad T \rightarrow 0
+    $$
+
+- Einstein introduced the concept of **quantized energy levels**, explaining the decrease in specific heat at low $T$.
+
+:::
+
+::::
+
+
+
+## Limitations of the Einstein Model
+
+The Einstein model **fails** at very low temperatures.
+
+- In reality, the **vibrational frequencies** are not all the same.
+- This leads to a **discrepancy** between theory and experimental results, particularly at low $T$.
+
+    $$
+    C_V^{exp} > C_V^{theory}
+    $$
+
+- This limitation is addressed by the **Debye model**.
+
+
+# Debye Model of Specific Heat
+
+## Key Concept
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- Debye treated solids as a **phonon gas** (vibrations of atoms as sound waves) rather than independent oscillators.
+- Phonons follow **Bose-Einstein statistics**.
+
+:::
+
+::: {.column width="40%"}
+![](/mass_spring_diagram.svg)
+
+
+:::
+
+::::
+
+
+## Simple math
+
+![](/mass_spring_diagram.svg)
+
+$$
+M \frac{d^2 u_n}{dt^2 }=\alpha(u_{n+1} - u_n )+ \alpha(u_{n-1} - u_n )
+$$
+
+
+$$
+u_n=Ae^{i(qX_n - \omega t)}
+$$
+
+
+## Simple math
+
+![](/mass_spring_diagram.svg)
+
+Boundary conditions: $u_1=u_n$
+
+Solution is $\omega=2\sqrt{\frac{\alpha}{M}} \sin(qa/2)$
+
+
+## Think about solution. Why it is periodic? { .smaller }
+
+$\omega=2\sqrt{\frac{\alpha}{M}} \sin(qa/2)$
+
+
+```{python}
+#| echo: true
+#| code-fold: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define constants
+alpha = 1.0  # spring constant
+M = 1.0      # mass
+a = 1.0      # lattice constant
+
+# Define the function for omega with absolute value
+def omega_abs(q):
+    return 2 * np.sqrt(alpha / M) * np.abs(np.sin(q * a / 2))
+
+# Create an array of q values
+q_values = np.linspace(-np.pi, np.pi, 500)
+
+# Calculate omega for each q with absolute value
+omega_values_abs = omega_abs(q_values)
+
+# Plot the updated function
+plt.plot(q_values, omega_values_abs, label=r'$\omega=2\sqrt{\frac{\alpha}{M}} |\sin(qa/2)|$')
+plt.xlabel('q')
+plt.ylabel(r'$\omega$')
+plt.title(r'Dispersion Relation: $\omega=2\sqrt{\frac{\alpha}{M}} |\sin(qa/2)|$')
+plt.axhline(0, color='black',linewidth=0.5)
+plt.axvline(0, color='black',linewidth=0.5)
+plt.grid(False)
+plt.legend()
+plt.show()
+```
+
+## Phonon simulation
+
+see:
+[PHY.K02UF Molecular and Solid State Physics](https://lampz.tugraz.at/~hadley/ss1/phonons/1d/1dphonons.php)
+
+- The distribution of phonon frequencies extends up to a maximum value $\nu_D$, called the **Debye frequency**.
+
+    $$
+    g(\nu) \propto \nu^2
+    $$
+    for $\nu \leq \nu_D$.
+
+
+## Heat Capacity in the Debye Model
+
+- **Low Temperatures** - Debye’s $T^3$ Law:
+    
+    $$
+    C_V \propto T^3
+    $$
+
+    - Excellent agreement with experimental results at low temperatures.
+
+- **High Temperatures** - classical **Dulong-Petit** law.
+
+    $$
+    C_V \approx 3R
+    $$
+
+
+
+# Experimental Methods for Measuring Specific Heat
+
+## Calorimetry
+
+**Differential scanning calorimetry (DSC)**
+
+ - Measures heat flow as temperature changes.
+
+**Adiabatic calorimetry**
+
+ - Measures heat required to change temperature in a well-isolated system.
+  
+
+## Two-Tau Model in Quantum Design PPMS
+
+- The **Two-Tau Model** is used in PPMS systems to measure the specific heat of materials.
+- It involves analyzing heat flow through a sample using two characteristic time constants $\tau$
+
+    1. $\tau_{\text{sample}}$ – Thermal relaxation time of the sample.
+    2. $\tau_{\text{addenda}}$ – Thermal relaxation time of the sample holder and addenda.
+
+## Experimental Setup
+
+:::: {.columns}
+::: {.column width="60%"}
+
+- The sample is mounted on a **platform** with a known heat capacity (addenda).
+- A **heater** applies a controlled amount of heat to the sample.
+- A **thermometer** monitors the temperature of both the sample and the addenda.
+  
+:::
+::: {.column width="40%"}
+![](/puck.jpg)
+
+:::
+::::
+
+
+## Key Steps in Measurement
+
+
+:::: {.columns}
+::: {.column width="60%"}
+
+1. **Heat Pulse** is applied to the sample and addenda.
+  
+2. **Thermal Relaxation** curves are recorded.
+  
+3. **Data Fitting** using **two-tau model**
+    - Accurate separation of the specific heat of the sample from the addenda.
+  
+
+:::
+::: {.column width="40%"}
+![](/heatpulse.png)
+
+:::
+::::
+
+
+## Two-Tau Model
+
+The temperature relaxation is fitted by two exponential decays:
+  
+$$
+    T(t) = T_0 + A_1 e^{-\frac{t}{\tau_1}} + A_2 e^{-\frac{t}{\tau_2}}
+$$
+  
+where: 
+
+- $T_0$ is the equilibrium temperature.
+- $\tau_1$ and $\tau_2$ are time constants for the sample and addenda.
+
+ 
+The fitting parameters $A_1$, $A_2$, $\tau_1$, and $\tau_2$ are used to calculate the **specific heat** $C_p$ of the sample.
+  
+
+## Practical Considerations
+
+- Proper thermal contact between the sample and platform is critical for accurate measurements.
+- Care must be taken to ensure that the addenda’s heat capacity is well-characterized across the temperature range.
+- Machine is a black box, don't use it as a black box!
+
+## Two-Tau Model - Semi-Adiabatic {.smaller}
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+### Advantages
+
+- **Improved Accuracy**: More precise separation of sample heat capacity from addenda.
+- **Applicable for Small Samples**: Effective for small samples where the addenda can dominate the heat capacity signal.
+- **Wider Temperature Range**: Works over a broad temperature range, especially useful for low-temperature measurements in the PPMS.
+
+:::
+::: {.column width="50%"}
+
+
+### Disadvantages 
+
+- **Slow**: One point could be minutes.
+- **Point separation**: could miss first order phase transitions
+
+:::
+::::
+
+# Long Pulse Heat Capacity Measurement
+
+## When you don't have enough time
+
+- **Semi-Adiabatic Method**:
+  - A short heat pulse is applied, and heat capacity is derived using exponential fits.
+  - Limitations: Time-consuming and not accurate for first-order transitions.
+
+- **Long-Pulse Method**:
+  - A long heat pulse (~30 min) is applied, and heat capacity is computed from the time derivative of sample temperature.
+  - More efficient and sensitive to first-order transitions.
+
+## Software: LongHCPulse {.smaller}
+
+[arxiv:1705.07129](https://arxiv.org/pdf/1705.07129)
+
+ - Compute and plot heat capacity using the long-pulse method.
+ - Corrects for noise, temperature recalculations, and inconsistencies in PPMS software.
+
+Performance and Results
+
+ - Accuracy: Long pulse is consistent and aligns with semi-adiabatic short-pulse data.
+ - Significantly reduces measurement time and increases sensitivity ( 5x faster than standard methods).
+ - More self-consistent compared to standard PPMS MultiVu software.
+
+
+# Additional informations
+
+## FLASH presentations
+
+ - 5 minutes strict (!!)
+ - Focus on your verbal and presentation skills
+ - You can have slides, prepare them in advance and upload them here:
+   [owncloud.cesnet.cz/index.php/s/JauiRSeBYgKKTxp](https://owncloud.cesnet.cz/index.php/s/JauiRSeBYgKKTxp)
+
+   filename: XX-name.pdf/pptx
+ - Train it in advance
+ - There will be prizes for 3 best presentations
