@@ -1,0 +1,48 @@
+---
+title: "Heat capacity data treatment"
+author: Petr Čermák
+date: 2024-10-01
+format:
+  revealjs: 
+    output-file: excercise-slides.html
+    theme: moon
+    multiplex: true
+    chalkboard: true
+  html:
+    output-file: excercise.html
+  ipynb: default
+jupyter: python3
+execute: 
+  echo: true
+summary: |
+  Understanding Heat Capacity from an Experimental Perspective
+  Short introduction to the specific heat measurements from the experimentalist point of view.
+---
+## Tasks
+
+
+
+:::: {.columns}
+::: {.column width="60%"}
+
+
+ - Use this data: [doi:10.6084/m9.figshare.27151218](https://doi.org/10.6084/m9.figshare.27151218)
+ - Analyse using [github.com/asche1/LongHCPulse](https://github.com/asche1/LongHCPulse)
+ - ...
+ - Produce 2D map of the measured data
+
+:::
+::: {.column width="40%"}
+![](/hc-map.png)
+
+:::
+::::
+
+
+## ELI instructions
+
+Place: Legerova 38 
+
+Time: 8:10
+
+Bring laptops and passport with you.
